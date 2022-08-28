@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using covise.enums;
 using covise.networking;
@@ -28,7 +29,7 @@ namespace tests
             client = new VRBClient(host, tcp_port);
             client.setupDefaultHandlers();
             client.setUserInformation(username, userEMail, url);
-            //client.connect();
+            client.connect();
         }
 
         public void getTaskState () {
@@ -37,6 +38,23 @@ namespace tests
             {
                 Debug.LogError(client.pollTask.Exception);
             }
+        }
+
+        public void listSessions()
+        {
+            SessionID[] sessionIds = client.listSessions();
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Available Sessions:\n");
+
+            foreach (SessionID session in sessionIds)
+            {
+                sb.Append("\t");
+                sb.Append(session.name);
+                sb.Append("\n");
+            }
+            
+            Debug.Log(sb.ToString());
         }
 
         public void createPublicSession()
@@ -49,7 +67,7 @@ namespace tests
             TokenBuffer buffer = new TokenBuffer(true);
             buffer.append("VALUE");
             
-            Message msg = MessageFactory.createVRB_REGISTRY_CREATE_ENTRY(0, SenderType.UNDEFINED,
+            Message msg = MessageFactory.createVRB_REGISTRY_CREATE_ENTRY(client.getSenderID(), SenderType.UNDEFINED,
                 client.getPublicSession(),
                 client.getClientID(), "testclass", "var1", buffer, false);
             

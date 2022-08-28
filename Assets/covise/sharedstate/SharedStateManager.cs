@@ -19,7 +19,7 @@ namespace covise.sharedstate
         
         private SharedStateManager()
         {
-            SharedPointerFactory.registerDefault();
+            //SharedPointerFactory.registerDefault();
             sharedInstanceObjects = new Dictionary<Type, List<object>>();
         }
 

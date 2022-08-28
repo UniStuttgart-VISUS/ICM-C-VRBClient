@@ -78,9 +78,9 @@ namespace covise.sharedstate
     #region Tools
     public class SharedPointerFactory
     {
-        private static Dictionary<Type, ConstructorInfo> pointers = new Dictionary<Type, ConstructorInfo>();
-
-        public static void registerDefault()
+        //private static Dictionary<Type, ConstructorInfo> pointers = new Dictionary<Type, ConstructorInfo>();
+        //FIXME: Dynamic Pointer registration does not work with generics ! (since no any type exists)
+        /* public static void registerDefault()
         {
             registerSharedPointerType(typeof(SharedBoolPointer<object>), typeof(bool));
             registerSharedPointerType(typeof(SharedIntPointer<object>), typeof(int));
@@ -119,11 +119,124 @@ namespace covise.sharedstate
         private static bool checkParam(ParameterInfo info, Type type, bool isIn = false, bool isOut = false)
         {
             return info.ParameterType == type && info.IsIn == isIn && info.IsOut == isOut;
-        }
+        } */
 
+        /// <summary>
+        /// Creates a new Shared Variable pointer
+        /// </summary>
+        /// <param name="sharedObject">Object Instance containing the shared variable</param>
+        /// <param name="sharedInstanceID">Instance ID for the shared instance</param>
+        /// <param name="sharedVariable">Field to share as a shared object</param>
+        /// <typeparam name="T">Type param for the Type of the Object Instance</typeparam>
+        /// <returns>The SharedVariableInterface for the given instance and field</returns>
+        /// <exception cref="Exception">Thrown when no suitable shared variable pointer is registered for fields with
+        /// the type of shared Variable</exception>
         public static SharedVariableInterface createPointer<T>(T sharedObject, int sharedInstanceID, FieldInfo sharedVariable)
         {
-            if (pointers.Keys.Contains(sharedVariable.FieldType))
+            #region Primitives
+            
+            if (sharedVariable.FieldType == typeof(bool))
+            {
+                return new SharedBoolPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(long))
+            {
+                return new SharedLongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(ulong))
+            {
+                return new SharedULongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(int))
+            {
+                return new SharedIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(uint))
+            {
+                return new SharedUIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(short))
+            {
+                return new SharedShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(ushort))
+            {
+                return new SharedUShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(float))
+            {
+                return new SharedFloatPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(double))
+            {
+                return new SharedDoublePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+
+            if (sharedVariable.FieldType == typeof(string))
+            {
+                return new SharedStringPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(byte))
+            {
+                return new SharedBytePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(char))
+            {
+                return new SharedCharPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            #endregion
+
+            #region Objects
+
+            if (sharedVariable.FieldType == typeof(Vector2))
+            {
+                return new SharedVector2Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+
+            if (sharedVariable.FieldType == typeof(Vector2Int))
+            {
+                return new SharedVector2IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(Vector3))
+            {
+                return new SharedVector3Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+
+            if (sharedVariable.FieldType == typeof(Vector3Int))
+            {
+                return new SharedVector3IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(Vector4))
+            {
+                return new SharedVector4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+            
+            if (sharedVariable.FieldType == typeof(Matrix4x4))
+            {
+                return new SharedMatrix4x4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+            }
+
+            if (typeof(IShareable).IsAssignableFrom(sharedVariable.FieldType))
+            {
+                
+            }
+
+            #endregion
+            
+            /*if (pointers.Keys.Contains(sharedVariable.FieldType))
             {
 
                 return (SharedVariableInterface)pointers[sharedVariable.FieldType].Invoke(new object[] {sharedObject, sharedInstanceID, sharedVariable});
@@ -131,7 +244,9 @@ namespace covise.sharedstate
             else
             {
                 throw new Exception("Could not find a SharedPointer for the FieldType " + sharedVariable.FieldType + " at Field " + sharedVariable.Name + " in Type " + typeof(T));
-            }
+            }*/
+            
+            throw new Exception("Could not find a SharedPointer for the FieldType " + sharedVariable.FieldType + " at Field " + sharedVariable.Name + " in Type " + typeof(T));
         }
     }
     
@@ -571,7 +686,7 @@ namespace covise.sharedstate
         }
     }
     
-    public class SharedShareablePointer<T, V> : SharedVariablePointer<T, IShareable<V>> where V: IShareable<V>
+    public class SharedShareablePointer<T> : SharedVariablePointer<T, IShareable>
     {
         public SharedShareablePointer(T sharedObject, int sharedInstanceID, FieldInfo sharedVariable)
             : base(sharedObject, sharedInstanceID, sharedVariable)

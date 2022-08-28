@@ -2,7 +2,7 @@
 
 namespace covise.sharedstate
 {
-    public interface IShareable<T> where T: IShareable<T>
+    public interface IShareable
     {
         public TokenBuffer serialize(TokenBuffer buffer);
 

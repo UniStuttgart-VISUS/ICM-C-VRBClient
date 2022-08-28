@@ -235,6 +235,11 @@ namespace covise.networking
 
         #region High Level
 
+        public SessionID[] listSessions()
+        {
+            return sessionManager.getSessions();
+        }
+
         public void createPublicSession(String sessionName)
         {
             SessionID publicSession = new SessionID();
@@ -247,5 +252,10 @@ namespace covise.networking
         }
 
         #endregion
+
+        public int getSenderID()
+        {
+            return remoteClient.id;
+        }
     }
 }

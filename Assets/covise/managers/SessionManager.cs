@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using covise.structs;
 
 namespace covise.managers
@@ -11,6 +12,11 @@ namespace covise.managers
         public SessionManager()
         {
             sessions = new Dictionary<int, SessionID>();
+        }
+
+        public SessionID[] getSessions()
+        {
+            return sessions.Values.ToArray();
         }
 
         public void setSession(SessionID session)
