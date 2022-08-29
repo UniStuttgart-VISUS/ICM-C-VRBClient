@@ -95,6 +95,7 @@
      <Compile Include="Assets\tests\Sample\SharedClassSyntax.cs" />
      <Compile Include="Assets\covise\networking\VRBClient.cs" />
      <Compile Include="Assets\covise\logging\tokens\CharToken.cs" />
+     <Compile Include="Assets\covise\glue\observer\ReflectiveObserver.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

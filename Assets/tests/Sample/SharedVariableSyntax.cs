@@ -19,7 +19,7 @@ namespace tests.Sample
         
         private int hidden_variable;
 
-        private void Awake()
+        private void Start()
         {
             SharedStateManager.getInstance().registerSharedInstance(this);
             // Register this Type as shared here

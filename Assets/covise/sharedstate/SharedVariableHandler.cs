@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Covise.Glue.Observer;
 using covise.serialisation;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -18,6 +19,10 @@ namespace covise.sharedstate
         public void setFromTokenBuffer(TokenBuffer buffer, ref int position);
         
         public void setFromTokenBuffer(TokenBuffer buffer, int position);
+
+        public void push();
+
+        public void pull();
 
     }
 
@@ -42,6 +47,19 @@ namespace covise.sharedstate
         public abstract TokenBuffer getAsTokenbuffer();
 
         public abstract void setFromTokenBuffer(TokenBuffer buffer, ref int position);
+
+        public void push()
+        {
+            TokenBuffer buffer = getAsTokenbuffer();
+            Debug.Log("Pushing value " + getValue() + " of Type " + sharedVariable.FieldType 
+                      + " from Instance of " + sharedObject.GetType());
+            //TODO: Implement
+        }
+
+        public void pull()
+        {
+            //TODO: Implement
+        }
 
         public void setFromTokenBuffer(TokenBuffer buffer, int postion = 0)
         {
@@ -71,6 +89,9 @@ namespace covise.sharedstate
             
             sharedVariable.SetValue(sharedObject, value);
         }
+        
+        
+        
     }
 
     #endregion
@@ -131,68 +152,129 @@ namespace covise.sharedstate
         /// <returns>The SharedVariableInterface for the given instance and field</returns>
         /// <exception cref="Exception">Thrown when no suitable shared variable pointer is registered for fields with
         /// the type of shared Variable</exception>
-        public static SharedVariableInterface createPointer<T>(T sharedObject, int sharedInstanceID, FieldInfo sharedVariable)
+        public static SharedVariableInterface createPointer<T>(T sharedObject, int sharedInstanceID, FieldInfo sharedVariable) where T: Component
         {
             #region Primitives
             
             if (sharedVariable.FieldType == typeof(bool))
             {
-                return new SharedBoolPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                
+                SharedVariableInterface ptr = new SharedBoolPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;
             }
             
             if (sharedVariable.FieldType == typeof(long))
             {
-                return new SharedLongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedLongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;
             }
             
             if (sharedVariable.FieldType == typeof(ulong))
             {
-                return new SharedULongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedULongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr; 
             }
             
             if (sharedVariable.FieldType == typeof(int))
             {
-                return new SharedIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;
             }
             
             if (sharedVariable.FieldType == typeof(uint))
             {
-                return new SharedUIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedUIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr; 
             }
             
             if (sharedVariable.FieldType == typeof(short))
             {
-                return new SharedShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
             
             if (sharedVariable.FieldType == typeof(ushort))
             {
-                return new SharedUShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedUShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
             
             if (sharedVariable.FieldType == typeof(float))
             {
-                return new SharedFloatPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedFloatPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
             
             if (sharedVariable.FieldType == typeof(double))
             {
-                return new SharedDoublePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedDoublePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
 
             if (sharedVariable.FieldType == typeof(string))
             {
-                return new SharedStringPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedStringPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
             
             if (sharedVariable.FieldType == typeof(byte))
             {
-                return new SharedBytePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedBytePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
             
             if (sharedVariable.FieldType == typeof(char))
             {
-                return new SharedCharPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedCharPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
             
             #endregion
@@ -201,37 +283,70 @@ namespace covise.sharedstate
 
             if (sharedVariable.FieldType == typeof(Vector2))
             {
-                return new SharedVector2Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedVector2Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;  
             }
 
             if (sharedVariable.FieldType == typeof(Vector2Int))
             {
-                return new SharedVector2IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedVector2IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;   
             }
             
             if (sharedVariable.FieldType == typeof(Vector3))
             {
-                return new SharedVector3Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedVector3Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;   
             }
 
             if (sharedVariable.FieldType == typeof(Vector3Int))
             {
-                return new SharedVector3IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedVector3IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;   
             }
             
             if (sharedVariable.FieldType == typeof(Vector4))
             {
-                return new SharedVector4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedVector4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;   
             }
             
             if (sharedVariable.FieldType == typeof(Matrix4x4))
             {
-                return new SharedMatrix4x4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                SharedVariableInterface ptr = new SharedMatrix4x4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
+                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                observer.setObserved(sharedObject, sharedVariable);
+                observer.changeEventHandler += (sender, args) => ptr.push();
+                
+                return ptr;   
             }
 
+            //TODO: Transform Ptr
+            
             if (typeof(IShareable).IsAssignableFrom(sharedVariable.FieldType))
             {
-                
+                //TODO: Create IShareable observer
+                return new SharedShareablePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
             }
 
             #endregion
