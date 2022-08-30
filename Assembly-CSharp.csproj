@@ -52,6 +52,25 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveBoolObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveByteObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveCharObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveDoubleObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveFloatObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveIntObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveLongObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveMatrix4x4Observer.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveShortObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveStringObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveUIntObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveULongObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveUShortObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector2IntObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector2Observer.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector3IntObserver.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector3Observer.cs" />
+     <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector4Observer.cs" />
      <Compile Include="Assets\covise\glue\observer\TransformObserver.cs" />
      <Compile Include="Assets\covise\glue\ByteTools.cs" />
      <Compile Include="Assets\tests\Sample\SharedVariableSyntax.cs" />
@@ -95,7 +114,6 @@
      <Compile Include="Assets\tests\Sample\SharedClassSyntax.cs" />
      <Compile Include="Assets\covise\networking\VRBClient.cs" />
      <Compile Include="Assets\covise\logging\tokens\CharToken.cs" />
-     <Compile Include="Assets\covise\glue\observer\ReflectiveObserver.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -696,8 +714,6 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>B:/VISUS/Sergej/ICM-CsharpVRBClient/ICM-CsharpVRBClient/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

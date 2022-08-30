@@ -160,7 +160,7 @@ namespace covise.sharedstate
             {
                 
                 SharedVariableInterface ptr = new SharedBoolPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveBoolObserver observer = sharedObject.gameObject.AddComponent<ReflectiveBoolObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -170,7 +170,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(long))
             {
                 SharedVariableInterface ptr = new SharedLongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveLongObserver observer = sharedObject.gameObject.AddComponent<ReflectiveLongObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -180,7 +180,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(ulong))
             {
                 SharedVariableInterface ptr = new SharedULongPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveULongObserver observer = sharedObject.gameObject.AddComponent<ReflectiveULongObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -190,7 +190,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(int))
             {
                 SharedVariableInterface ptr = new SharedIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveIntObserver observer = sharedObject.gameObject.AddComponent<ReflectiveIntObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -200,7 +200,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(uint))
             {
                 SharedVariableInterface ptr = new SharedUIntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveUIntObserver observer = sharedObject.gameObject.AddComponent<ReflectiveUIntObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -210,7 +210,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(short))
             {
                 SharedVariableInterface ptr = new SharedShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveShortObserver observer = sharedObject.gameObject.AddComponent<ReflectiveShortObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -220,7 +220,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(ushort))
             {
                 SharedVariableInterface ptr = new SharedUShortPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveUShortObserver observer = sharedObject.gameObject.AddComponent<ReflectiveUShortObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -230,7 +230,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(float))
             {
                 SharedVariableInterface ptr = new SharedFloatPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveFloatObserver observer = sharedObject.gameObject.AddComponent<ReflectiveFloatObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -240,7 +240,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(double))
             {
                 SharedVariableInterface ptr = new SharedDoublePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveDoubleObserver observer = sharedObject.gameObject.AddComponent<ReflectiveDoubleObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -250,7 +250,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(string))
             {
                 SharedVariableInterface ptr = new SharedStringPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveStringObserver observer = sharedObject.gameObject.AddComponent<ReflectiveStringObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -260,7 +260,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(byte))
             {
                 SharedVariableInterface ptr = new SharedBytePointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveByteObserver observer = sharedObject.gameObject.AddComponent<ReflectiveByteObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -270,7 +270,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(char))
             {
                 SharedVariableInterface ptr = new SharedCharPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveCharObserver observer = sharedObject.gameObject.AddComponent<ReflectiveCharObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -284,7 +284,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(Vector2))
             {
                 SharedVariableInterface ptr = new SharedVector2Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveVector2Observer observer = sharedObject.gameObject.AddComponent<ReflectiveVector2Observer>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -294,7 +294,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(Vector2Int))
             {
                 SharedVariableInterface ptr = new SharedVector2IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveVector2IntObserver observer = sharedObject.gameObject.AddComponent<ReflectiveVector2IntObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -304,7 +304,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(Vector3))
             {
                 SharedVariableInterface ptr = new SharedVector3Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveVector3Observer observer = sharedObject.gameObject.AddComponent<ReflectiveVector3Observer>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -314,7 +314,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(Vector3Int))
             {
                 SharedVariableInterface ptr = new SharedVector3IntPointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveVector3IntObserver observer = sharedObject.gameObject.AddComponent<ReflectiveVector3IntObserver>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -324,7 +324,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(Vector4))
             {
                 SharedVariableInterface ptr = new SharedVector4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveVector4Observer observer = sharedObject.gameObject.AddComponent<ReflectiveVector4Observer>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
@@ -334,7 +334,7 @@ namespace covise.sharedstate
             if (sharedVariable.FieldType == typeof(Matrix4x4))
             {
                 SharedVariableInterface ptr = new SharedMatrix4x4Pointer<T>(sharedObject, sharedInstanceID, sharedVariable);
-                ReflectiveObserver observer = sharedObject.gameObject.AddComponent<ReflectiveObserver>();
+                ReflectiveMatrix4x4Observer observer = sharedObject.gameObject.AddComponent<ReflectiveMatrix4x4Observer>();
                 observer.setObserved(sharedObject, sharedVariable);
                 observer.changeEventHandler += (sender, args) => ptr.push();
                 
