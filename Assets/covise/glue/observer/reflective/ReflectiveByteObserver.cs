@@ -5,30 +5,8 @@ using UnityEngine;
 
 namespace Covise.Glue.Observer
 {
-    public class ReflectiveByteObserver : AbstractObserver<byte> 
+    public class ReflectiveByteObserver : ReflectiveObserver<byte> 
     {
-        private byte previousValue;
-        
-        private object instance;
-        private FieldInfo observedField;
-
-        public ReflectiveByteObserver()
-        {
-            
-        }
-        
-        public ReflectiveByteObserver(object instance, FieldInfo field)
-        {
-            this.instance = instance;
-            this.observedField = field;
-        }
-
-        public void setObserved(object instance, FieldInfo field)
-        {
-            this.instance = instance;
-            this.observedField = field;
-        }
-
         public void LateUpdate()
         {
             observed = (byte)observedField.GetValue(instance);

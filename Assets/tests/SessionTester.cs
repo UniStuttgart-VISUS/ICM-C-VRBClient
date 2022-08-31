@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using covise.enums;
 using covise.networking;
 using covise.serialisation;
+using covise.sharedstate;
 using covise.structs;
 using UnityEngine;
 
@@ -55,6 +56,11 @@ namespace tests
             }
             
             Debug.Log(sb.ToString());
+        }
+
+        public void listRegistry()
+        {
+            Debug.Log(SharedStateManager.getInstance().getSharedRegistryContents());
         }
 
         public void createPublicSession()

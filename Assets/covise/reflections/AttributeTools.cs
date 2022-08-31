@@ -113,6 +113,12 @@ namespace covise.reflections
             return objectType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Default);
         }
 
+        public static FieldInfo getField(Type objectType, string propertyName)
+        {
+            return objectType.GetField(propertyName,
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+        }
+
         #endregion
         
         #region General Tools

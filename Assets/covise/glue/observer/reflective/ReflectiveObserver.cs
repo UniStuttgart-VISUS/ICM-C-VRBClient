@@ -5,16 +5,15 @@ using UnityEngine;
 
 namespace Covise.Glue.Observer
 {
-    public class ReflectiveObserver : AbstractObserver<object> 
+    public abstract class ReflectiveObserver<T> : AbstractObserver<T> 
     {
-        private object previousValue;
+        protected T previousValue;
         
-        private object instance;
-        private FieldInfo observedField;
+        protected object instance;
+        protected FieldInfo observedField;
 
         public ReflectiveObserver()
         {
-            
         }
         
         public ReflectiveObserver(object instance, FieldInfo field)
@@ -29,15 +28,9 @@ namespace Covise.Glue.Observer
             this.observedField = field;
         }
 
-        private EqualityComparer<object> comparer = EqualityComparer<object>.Default;
-        public void LateUpdate()
+        public void setValue(T value)
         {
-            observed = observedField.GetValue(instance);
-            if (!comparer.Equals(observed,previousValue))
-            {
-                invokeChangeEvent();
-                previousValue = observed;
-            }
+            previousValue = value;
         }
     }
 }

@@ -5,30 +5,8 @@ using UnityEngine;
 
 namespace Covise.Glue.Observer
 {
-    public class ReflectiveShortObserver : AbstractObserver<short> 
+    public class ReflectiveShortObserver : ReflectiveObserver<short> 
     {
-        private short previousValue;
-        
-        private object instance;
-        private FieldInfo observedField;
-
-        public ReflectiveShortObserver()
-        {
-            
-        }
-        
-        public ReflectiveShortObserver(object instance, FieldInfo field)
-        {
-            this.instance = instance;
-            this.observedField = field;
-        }
-
-        public void setObserved(object instance, FieldInfo field)
-        {
-            this.instance = instance;
-            this.observedField = field;
-        }
-
         public void LateUpdate()
         {
             observed = (short)observedField.GetValue(instance);

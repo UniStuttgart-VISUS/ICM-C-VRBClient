@@ -5,29 +5,8 @@ using UnityEngine;
 
 namespace Covise.Glue.Observer
 {
-    public class ReflectiveVector2IntObserver : AbstractObserver<Vector2Int> 
+    public class ReflectiveVector2IntObserver : ReflectiveObserver<Vector2Int> 
     {
-        private Vector2Int previousValue;
-        
-        private object instance;
-        private FieldInfo observedField;
-
-        public ReflectiveVector2IntObserver()
-        {
-            
-        }
-        
-        public ReflectiveVector2IntObserver(object instance, FieldInfo field)
-        {
-            this.instance = instance;
-            this.observedField = field;
-        }
-
-        public void setObserved(object instance, FieldInfo field)
-        {
-            this.instance = instance;
-            this.observedField = field;
-        }
 
         public void LateUpdate()
         {

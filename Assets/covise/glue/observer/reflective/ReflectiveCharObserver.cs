@@ -5,18 +5,8 @@ using UnityEngine;
 
 namespace Covise.Glue.Observer
 {
-    public class ReflectiveCharObserver : AbstractObserver<char> 
+    public class ReflectiveCharObserver : ReflectiveObserver<char> 
     {
-        private char previousValue;
-        
-        private object instance;
-        private FieldInfo observedField;
-
-        public ReflectiveCharObserver()
-        {
-            
-        }
-        
         public ReflectiveCharObserver(object instance, FieldInfo field)
         {
             this.instance = instance;
