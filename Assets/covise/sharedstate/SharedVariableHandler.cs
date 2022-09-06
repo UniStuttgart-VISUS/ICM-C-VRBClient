@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Covise.Glue.Observer;
 using covise.serialisation;
 using Unity.Collections.LowLevel.Unsafe;
@@ -15,6 +16,10 @@ namespace covise.sharedstate
     {
         public Type getFieldType();
 
+        public string getClassInstance();
+        
+        public string getVariableName();
+        
         public TokenBuffer getAsTokenbuffer();
         public void setFromTokenBuffer(TokenBuffer buffer, ref int position);
         
@@ -46,21 +51,36 @@ namespace covise.sharedstate
             return sharedVariable.FieldType;
         }
 
+        public string getClassInstance()
+        {
+            
+            StringBuilder sb = new StringBuilder();
+            //TODO: Consider Attribute
+            sb.Append(sharedObject.GetType().ToString());
+            //TODO: Ensure that this character is not allowed in c# types
+            sb.Append("\t");
+            sb.Append(sharedInstanceID);
+            return sb.ToString();
+        }
+
+        public string getVariableName()
+        {
+            //TODO: Consider Attribute
+            return sharedVariable.Name;
+        }
+
         public abstract TokenBuffer getAsTokenbuffer();
 
         public abstract void setFromTokenBuffer(TokenBuffer buffer, ref int position);
-
+        
         public void push()
         {
-            TokenBuffer buffer = getAsTokenbuffer();
-            Debug.Log("Pushing value " + getValue() + " of Type " + sharedVariable.FieldType 
-                      + " from Instance of " + sharedObject.GetType());
-            //TODO: Implement
+            SharedStateManager.CONNECTOR.pushVariable(this);
         }
 
         public void pull()
         {
-            //TODO: Implement
+            SharedStateManager.CONNECTOR.pullVariable(this);
         }
 
         public void setObserver(ReflectiveObserver<V> observer)

@@ -16,8 +16,8 @@ namespace tests.Sample
 
         [SharedVariable("com.namespace.other.classname", "floatValue")]
         protected float sharedByOther = 0.42f;
-        
-        private int hidden_variable;
+
+        public int hidden_variable;
 
         private void Start()
         {

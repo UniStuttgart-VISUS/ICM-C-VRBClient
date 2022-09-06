@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using covise.attributes;
 using covise.reflections;
+using covise.sharedstate.connectors;
 using UnityEngine;
 
 namespace covise.sharedstate
@@ -14,6 +15,7 @@ namespace covise.sharedstate
     public class SharedStateManager
     {
         private static SharedStateManager INSTANCE = null;
+        public static IConnector CONNECTOR = null;
         
         protected Dictionary<string, Dictionary<string, Dictionary<string, SharedVariableInterface>>> sharedVars = null;
         protected Dictionary<object, string> idLUT = null;
@@ -238,7 +240,7 @@ namespace covise.sharedstate
 
             string instanceID = computeInstanceID(instance, classAttrib);
 
-                FieldInfo[] fields = AttributeTools.getFields(instance.GetType());
+            FieldInfo[] fields = AttributeTools.getFields(instance.GetType());
 
             for (int i = 0; i < fields.Length; i++)
             {
@@ -267,16 +269,19 @@ namespace covise.sharedstate
                     sb.Append(sharedInstanceMaxUUIDs[instance.GetType()]++);
                     break;
                 case InstanceIDType.MANUAL:
-                    sb.Append("M");
                     FieldInfo field = AttributeTools.getField(instance.GetType(), classAttrib.instanceIDName);
                     if (field == null)
                     {
-                        Debug.LogError("Unable to find explicit instance id field. Expected field '" 
+                        throw new ArgumentException("Unable to find explicit instance id field. Expected field '" 
                                        + classAttrib.instanceIDName + "' in type '" + instance.GetType() + "' Fallback to automatic instance id.");
-                        sb.Append("A");
+/*                        sb.Append("A");
+                        if (!sharedInstanceMaxUUIDs.ContainsKey(instance.GetType()))
+                        {
+                            sharedInstanceMaxUUIDs.Add(instance.GetType(), 0);
+                        }
                         sb.Append(sharedInstanceMaxUUIDs[instance.GetType()]++);
                        
-                        break;
+                        break;*/
                     }
                     
                     sb.Append("M");
@@ -297,12 +302,42 @@ namespace covise.sharedstate
             
             Debug.Log("Created Pointer of Type:" + shared.GetType() + " for class " + instance.GetType() + ".");
             
-            // TODO: push on Create Session or Pull on join session
             // TODO: Implement generic serialisation for all unsupported types (i.e. Object) ? see IFormatter, use seems to be discouraged ? --> Is custom object serialisation required ?
         }
 
         #endregion
+
+        #region Shared Variable Handling
+
+        public void registerAllSharedVariables()
+        {
+            foreach (string typename in sharedVars.Keys)
+            {
+                foreach (string instanceID in sharedVars[typename].Keys)
+                {
+                    foreach (string variable in sharedVars[typename][instanceID].Keys)
+                    {
+                        CONNECTOR.registerVariable(sharedVars[typename][instanceID][variable]);
+                    }
+                }
+            }
+        }
+
+        public void pushAllSharedVariables()
+        {
+            foreach (string typename in sharedVars.Keys)
+            {
+                foreach (string instanceID in sharedVars[typename].Keys)
+                {
+                    foreach (string variable in sharedVars[typename][instanceID].Keys)
+                    {
+                        CONNECTOR.pushVariable(sharedVars[typename][instanceID][variable]);
+                    }
+                }
+            }
+        }
         
-      
+        #endregion
+        
     }
 }

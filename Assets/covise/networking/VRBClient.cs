@@ -24,12 +24,13 @@ namespace covise.networking
         private bool autopoll = true;
         
         public EventHandler onMessageReceived;
-
+        public EventHandler onMessage;
+        
         private SessionManager sessionManager;
 
         private UserInfo userInfo;
         //private SessionID sessionID;
-
+        
         private RemoteClient remoteClient;
         public Task pollTask;
 
@@ -66,9 +67,24 @@ namespace covise.networking
         }
 
         #region Setup
-        
+
+        public void setAddress(IPEndPoint endPoint)
+        {
+            checkNotConnected("setAddress");
+            this.host = endPoint.Address.ToString();
+            this.port = endPoint.Port;
+        }
+
+        public void setAddress(string host, int port)
+        {
+            checkNotConnected("setAddress");
+            this.host = host;
+            this.port = port;
+        }
+
         public void setUserInformation(string username, string mail, string url)
         {
+            checkNotConnected("setUserInformation");
             string host = Dns.GetHostName();
 
             this.userInfo.userName = username;
@@ -94,14 +110,15 @@ namespace covise.networking
 
         public void setupDefaultHandlers()
         {
-            onMessageReceived += delegate(object sender, EventArgs args)
+            this.onMessageReceived += delegate(object sender, EventArgs args)
             {
-                handleMessage(((MessageEventArgs) args).message);
+                handleMessageLowLevel(((MessageEventArgs) args).message);
             };
         }
 
         public void connect()
         {
+            checkNotConnected("connect");
             this.client.Connect(this.host, this.port);
 
             this.running = true;
@@ -124,6 +141,7 @@ namespace covise.networking
 
         public void disconnect()
         {
+            checkConnected("disconnect");
             this.running = false;
             this.client.Close();
         }
@@ -171,7 +189,7 @@ namespace covise.networking
             onMessageReceived.Invoke(this, new MessageEventArgs(message));
         }
 
-        protected void handleMessage(Message message)
+        protected void handleMessageLowLevel(Message message)
         {
             Debug.Log(message);
             TokenBuffer buffer = message.getTokenBuffer();
@@ -218,14 +236,19 @@ namespace covise.networking
                     break;
                 
                 default:
-                    Debug.Log("Unhandled Message:" + message);
-                    //TODO: Call child message handlers
+                    handleMessage(message);
                     break;
             }
         }
 
+        protected virtual void handleMessage(Message message)
+        {
+            onMessage.Invoke(this, new MessageEventArgs(message));
+        }
+        
         public void sendMessage(Message message)
         {
+            checkConnected("sendMessage");
             byte[] buffer = message.assembleMessage();
             this.client.GetStream().Write(buffer, 0, buffer.Length);
             this.client.GetStream().Flush();
@@ -237,10 +260,11 @@ namespace covise.networking
 
         public SessionID[] listSessions()
         {
+            checkConnected("listSessions");
             return sessionManager.getSessions();
         }
 
-        public void createPublicSession(String sessionName)
+        public virtual void createPublicSession(String sessionName)
         {
             SessionID publicSession = new SessionID();
             publicSession.name = sessionName;
@@ -248,9 +272,34 @@ namespace covise.networking
             publicSession.master = remoteClient.id;
             publicSession.owner = remoteClient.id;
             
-            sendMessage(MessageFactory.createVRB_REQUEST_NEW_SESSION(0, SenderType.UNDEFINED, publicSession));
+            sendMessage(MessageFactory.createVRB_REQUEST_NEW_SESSION(remoteClient.id, SenderType.UNDEFINED, publicSession));
         }
 
+        public virtual void joinPublicSession(int senderID, SessionID sessionID)
+        {
+            sendMessage(MessageFactory.createVRBC_SET_SESSION(remoteClient.id, SenderType.UNDEFINED, senderID, sessionID));
+        }
+
+        #endregion
+
+        #region Error Handling
+
+        public void checkConnected(string op)
+        {
+            if (!this.running)
+            {
+                throw new Exception("Can not execute operation '"+ op +"' at this moment. Client is not connected !");
+            }
+        }
+
+        public void checkNotConnected(string op)
+        {
+            if (this.running)
+            {
+                throw new Exception("Can not execute operation '"+ op +"' at this moment. Client is already connected !");
+            }
+        }
+        
         #endregion
 
         public int getSenderID()

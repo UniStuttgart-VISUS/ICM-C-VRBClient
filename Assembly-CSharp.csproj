@@ -114,6 +114,10 @@
      <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveMatrix4x4Observer.cs" />
      <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector2IntObserver.cs" />
      <Compile Include="Assets\covise\glue\observer\reflective\ReflectiveVector4Observer.cs" />
+     <Compile Include="Assets\covise\networking\ManagedVRBClient.cs" />
+     <Compile Include="Assets\covise\sharedstate\connectors\IConnector.cs" />
+     <Compile Include="Assets\covise\sharedstate\connectors\VRBConnector.cs" />
+     <Compile Include="Assets\tests\ManagedClientTest.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

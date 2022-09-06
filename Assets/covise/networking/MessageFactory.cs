@@ -27,6 +27,14 @@ namespace covise.networking
             return new Message(sender, senderType, MessageType.VRB_REQUEST_NEW_SESSION, buffer.ToBytes());
         }
 
+        public static Message createVRBC_SET_SESSION(int sender, SenderType senderType, int senderID, SessionID publicSession)
+        {
+            TokenBuffer buffer = new TokenBuffer(USE_TOKENBUFFER_DEBUG_FORMAT);
+            buffer.append(senderID);
+            buffer.append(publicSession);
+            return new Message(sender, senderType, MessageType.VRBC_SET_SESSION, buffer.ToBytes());
+        }
+        
         #endregion
 
         #region VRB Registry

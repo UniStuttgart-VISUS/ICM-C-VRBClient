@@ -13,7 +13,7 @@ namespace Covise.Glue.Observer
             this.observedField = field;
         }
 
-        public void setObserved(object instance, FieldInfo field)
+        public new void setObserved(object instance, FieldInfo field)
         {
             this.instance = instance;
             this.observedField = field;
