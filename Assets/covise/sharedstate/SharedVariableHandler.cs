@@ -21,6 +21,11 @@ namespace covise.sharedstate
         public string getVariableName();
         
         public TokenBuffer getAsTokenbuffer();
+
+        public bool isSyncronizing();
+
+        public void setSyncronizing(bool syncronizing);
+        
         public void setFromTokenBuffer(TokenBuffer buffer, ref int position);
         
         public void setFromTokenBuffer(TokenBuffer buffer, int position);
@@ -28,6 +33,7 @@ namespace covise.sharedstate
         public void push();
 
         public void pull();
+        
 
     }
 
@@ -38,12 +44,24 @@ namespace covise.sharedstate
         public FieldInfo sharedVariable;
 
         protected ReflectiveObserver<V> observer;
-
+        protected bool sync;
+        
         public SharedVariablePointer(T sharedObject, string sharedInstanceID, FieldInfo sharedVariable)
         {
             this.sharedObject = sharedObject;
             this.sharedInstanceID = sharedInstanceID;
             this.sharedVariable = sharedVariable;
+            sync = false;
+        }
+
+        public bool isSyncronizing()
+        {
+            return sync;
+        }
+
+        public void setSyncronizing(bool syncronizing)
+        {
+            this.sync = syncronizing;
         }
 
         public Type getFieldType()

@@ -51,7 +51,6 @@ namespace covise.networking
 
         public override void joinPublicSession(int senderID, SessionID sessionID)
         {
-            
             base.joinPublicSession(senderID, sessionID);
         }
 

@@ -19,6 +19,8 @@ namespace covise.sharedstate.connectors
                 client.getClientID(), variable.getClassInstance(), variable.getVariableName(), variable.getAsTokenbuffer(), false);
             
             client.sendMessage(msg);
+            
+            variable.setSyncronizing(true);
         }
 
         public void deleteVariable(SharedVariableInterface variable)
@@ -28,7 +30,16 @@ namespace covise.sharedstate.connectors
 
         public void pushVariable(SharedVariableInterface variable)
         {
-//            throw new System.NotImplementedException();
+            if (!variable.isSyncronizing())
+            {
+                return;
+            }
+
+            Message msg = MessageFactory.createVRB_REGISTRY_SET_VALUE(client.getSenderID(), SenderType.UNDEFINED,
+                client.getPublicSession(),
+                client.getClientID(), variable.getClassInstance(), variable.getVariableName(),
+                variable.getAsTokenbuffer());
+            client.sendMessage(msg);
         }
 
         public void pullVariable(SharedVariableInterface variable)

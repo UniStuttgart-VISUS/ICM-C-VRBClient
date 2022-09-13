@@ -11,6 +11,9 @@ namespace tests.Sample
         [SharedVariable]
         public bool position;
 
+        [SharedVariable]
+        public string name;
+        
         [SharedVariable("LifeTime")]
         private int lifetime_shared = 20;
 
