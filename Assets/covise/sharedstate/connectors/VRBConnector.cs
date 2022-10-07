@@ -26,6 +26,21 @@ namespace covise.sharedstate.connectors
         public void deleteVariable(SharedVariableInterface variable)
         {
  //           throw new System.NotImplementedException();
+            variable.setSyncronizing(false);
+        }
+
+        public void subscribeVariable(SharedVariableInterface variable)
+        {
+            Message msg = MessageFactory.createVRB_REGISTRY_SUBSCRIBE_VARIABLE(client.getSenderID(),
+                SenderType.UNDEFINED,
+                client.getPublicSession(), client.getClientID(), variable.getClassInstance(),
+                variable.getVariableName());
+            variable.setSyncronizing(true);
+        }
+
+        public void unsubscribeVariable(SharedVariableInterface variable)
+        {
+            variable.setSyncronizing(false);
         }
 
         public void pushVariable(SharedVariableInterface variable)

@@ -323,6 +323,20 @@ namespace covise.sharedstate
             }
         }
 
+        public void subscribeToAllSharedVariables()
+        {
+            foreach (string typename in sharedVars.Keys)
+            {
+                foreach (string instanceID in sharedVars[typename].Keys)
+                {
+                    foreach (string variable in sharedVars[typename][instanceID].Keys)
+                    {
+                        CONNECTOR.subscribeVariable(sharedVars[typename][instanceID][variable]);
+                    }
+                }
+            }
+        }
+
         public void pushAllSharedVariables()
         {
             foreach (string typename in sharedVars.Keys)

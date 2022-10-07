@@ -46,12 +46,13 @@ namespace covise.networking
         {
             base.createPublicSession(sessionName);
             stateManager.registerAllSharedVariables();
-            
+            stateManager.subscribeToAllSharedVariables();
         }
 
         public override void joinPublicSession(int senderID, SessionID sessionID)
         {
             base.joinPublicSession(senderID, sessionID);
+            stateManager.subscribeToAllSharedVariables();
         }
 
         #endregion

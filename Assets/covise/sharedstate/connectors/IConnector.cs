@@ -6,8 +6,11 @@ namespace covise.sharedstate.connectors
     {
         public void registerVariable(SharedVariableInterface variable);
         public void deleteVariable(SharedVariableInterface variable);
+        public void subscribeVariable(SharedVariableInterface variable);
+        public void unsubscribeVariable(SharedVariableInterface variable);
         
         public void pushVariable(SharedVariableInterface variable);
         public void pullVariable(SharedVariableInterface variable);
+        
     }
 }
