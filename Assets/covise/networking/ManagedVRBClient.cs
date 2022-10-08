@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Net;
+using covise.enums;
 using covise.managers;
 using covise.sharedstate;
 using covise.sharedstate.connectors;
 using covise.structs;
+using UnityEngine;
 
 namespace covise.networking
 {
@@ -25,9 +27,11 @@ namespace covise.networking
         
         protected override void handleMessage(Message message)
         {
-            switch (message.messageType)
+            switch (message.messageType.value)
             {
-                
+                case MessageType.ID_VRB_REGISTRY_ENTRY_CHANGED:
+                    Debug.LogWarning("Received Entry Changed callback");
+                    break;
                 default:
                     invokeOnMessage(message);
                     break;

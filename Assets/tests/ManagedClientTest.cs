@@ -56,16 +56,30 @@ namespace tests
         #endregion
 
         protected ManagedVRBClient vrbClient;
+
+        private volatile bool updateSessionList = false;
         
         public void Start()
         {
             vrbClient = new ManagedVRBClient(host, tcp_port);
             vrbClient.setupDefaultHandlers();
+
+            vrbClient.onSessionListChanged += delegate(object sender, EventArgs args) {updateSessionList = true;};
             
             createConnectLayout();
             createSessionLayout();
             
             showConnectLayout();
+        }
+
+        public void Update()
+        {
+            if (updateSessionList)
+            {
+                clearLayout();
+                showSessionLayout();
+                updateSessionList = false;
+            }
         }
 
         #region functions
@@ -83,22 +97,19 @@ namespace tests
             vrbClient.setUserInformation(username, userEMail, url);
             vrbClient.connect();
             
-            clearLayout();
-            showSessionLayout();
+            
         }
 
         public void createSession()
         {
             vrbClient.createPublicSession(getText(sessionNameInput));
             clearLayout();
-            showSessionLayout();
         }
 
         public void joinSession(SessionID session)
         {
             Debug.Log("Joining existing Session: " + session.name);
             clearLayout();
-            showSessionLayout();
         }
 
         #endregion
@@ -212,7 +223,8 @@ namespace tests
             SessionID[] sessions = vrbClient.listSessions();
 
             foreach (SessionID session in sessions)
-            {
+            {  
+                Debug.Log("Create Session Button: " + session.name);
                 GameObject sessionBtn = createButton(session.name, () => { joinSession(session); });
                 availableSessions.Add(sessionBtn);
                 sessionBtn.transform.SetParent(sessionRoot.transform);

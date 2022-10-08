@@ -26,6 +26,8 @@ namespace covise.networking
         public EventHandler onMessageReceived;
         public EventHandler onMessage;
         
+        public EventHandler onSessionListChanged;
+        
         private SessionManager sessionManager;
 
         private UserInfo userInfo;
@@ -233,6 +235,9 @@ namespace covise.networking
                     {
                         this.sessionManager.setSession(i, buffer.getSessionID(ref position));
                     }
+                    
+                    onSessionListChanged.Invoke(this, new MessageEventArgs(message));
+                    
                     break;
                 
                 default:
